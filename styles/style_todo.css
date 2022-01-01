@@ -79,6 +79,19 @@ ul li.checked::before{
     color: white;
 }
 
+.edit{
+    position: absolute;
+    right: 45px;
+    top: 0;
+    height: 99.8%;
+    padding: 12px 16px 12px 16px;
+}
+
+.edit:hover{
+    background-color: rgb(201, 0, 0);
+    color: white;
+}
+
 .header{
     background-color: rgb(45, 24, 138);
     padding: 30px 30px;
