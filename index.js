@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req,res) => {
-    res.render("index.html");
+    res.sendFile("index.html");
+    res.sendFile("./styles/style_login.css")
+
 });
 
 app.listen(process.env.PORT || 5555);
