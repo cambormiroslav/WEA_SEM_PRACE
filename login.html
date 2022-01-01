@@ -9,25 +9,24 @@
     <body>
         <div class="center">
             <h1>Login</h1>
-            <form method="post">
+            <form>
                 <div class="txt_field">
-                    <input type="text" required>
+                    <input type="text" id="username" required>
                     <span></span>
                     <label>Username</label>
                 </div>
                 <div class="txt_field">
-                    <input type="password" required>
+                    <input type="password" id="password" required>
                     <span></span>
                     <label>Password</label>
                 </div>
-                <input type="submit" value="Login">
+                <input type="submit" value="Login" onclick="isItEqualPassword()">
                 <div class="signup_link">
                     Not a member? <a href="#">Sign Up</a>
                 </div>
             </form>
         </div>
-
-        <script src=""></script>
+        <script src="./javascripts/login.js"></script>
     </body>
 
 </html>
