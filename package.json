@@ -7,6 +7,6 @@
     "sqlite3": "^4.2.0"
   },
   "scripts": {
-    "start": "index.html"
+    "start": "node index.js"
   }
 }
