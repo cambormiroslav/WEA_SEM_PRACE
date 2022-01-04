@@ -18,13 +18,16 @@ for (var i = 0; i < node_list.length; i++){
 
 closeReminder();
 
-editReminder()
+editReminder();
 
 //do reminder done
 var list = document.querySelector('ul')
 list.addEventListener('click', function(ev){
     if(ev.target.tagName === 'LI'){
         ev.target.classList.toggle('checked');
+        var div_innerHTML = ev.target.innerHTML;
+        var div_value = div_innerHTML.split("<")[0];
+        sendToExpress("done", div_value);
     }
 },false)
 
@@ -36,6 +39,7 @@ function addNewReminder(){
     //create new li element
     var li = document.createElement('li');
     var inputValue = document.getElementById("item").value;
+    sendToExpress("add", inputValue);
     var t = document.createTextNode(inputValue);
     li.appendChild(t);
     if(inputValue === ''){
@@ -61,9 +65,9 @@ function addNewReminder(){
     span.appendChild(txt);
     li.appendChild(span);
 
-    closeReminder()
+    closeReminder();
 
-    editReminder()
+    editReminder();
 }
 
 function editReminder(){
@@ -74,6 +78,7 @@ function editReminder(){
             //get value of reminder
             var value_of_reminder_with_buttons = this.parentElement.innerHTML;
             var value_of_reminder = value_of_reminder_with_buttons.split("<")[0];
+            sendToExpress("delete", value_of_reminder);
             document.getElementById('item').value = value_of_reminder;
             //close reminder
             var reminder = this.parentElement;
@@ -98,14 +103,17 @@ function closeReminder(){
         close_it[i].onclick = function(){
             var div = this.parentElement;
             div.style.display='none';
+            var div_innerHTML = div.innerHTML;
+            var div_value = div_innerHTML.split("<")[0];
+            sendToExpress("delete", div_value);
         }
     }
 }
 
-function sendToExpress(action, value, newvalue){
+function sendToExpress(action, value){
     fetch("/todo",{
         method:'POST',
-        body:`action=${action}&value=${value}&newvalue=${newvalue}`,
+        body:`action=${action}&value=${value}`,
         headers: {
             "Content-type":"application/x-www-form-urlencoded"
         }
