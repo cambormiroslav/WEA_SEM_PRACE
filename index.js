@@ -40,11 +40,30 @@ app.post("/", (req, res ,next) => {
     db.close((err) => {
         if(err) return console.log(err.message);
     });
-    
+
 });
 
 app.get("/todo", (req,res) => {
     res.sendFile(__dirname+'/todo.html');
+});
+
+app.post("/todo", (req, res ,next) => {
+    console.log(req.body.action);
+    console.log(req.body.value);
+    console.log(req.body.newvalue);
+    var action = req.body.action;
+    var value = req.body.value;
+    var newvalue = req.body.newvalue;
+
+    if(action == "add"){
+        console.log("added")
+    }else if(action == "update"){
+        console.log("updated")
+    }else if(action == "delete"){
+        console.log("deleted")
+    }else if(action == "done"){
+        console.log("done")
+    }
 });
 
 app.listen(process.env.PORT || 5555);

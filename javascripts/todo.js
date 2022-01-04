@@ -101,3 +101,14 @@ function closeReminder(){
         }
     }
 }
+
+function sendToExpress(action, value, newvalue){
+    fetch("/todo",{
+        method:'POST',
+        body:`action=${action}&value=${value}&newvalue=${newvalue}`,
+        headers: {
+            "Content-type":"application/x-www-form-urlencoded"
+        }
+    });
+    return;
+}
