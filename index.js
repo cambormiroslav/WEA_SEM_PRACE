@@ -48,18 +48,74 @@ app.get("/todo", (req,res) => {
 });
 
 app.post("/todo", (req, res ,next) => {
-    console.log(req.body.action);
-    console.log(req.body.value);
+    const mysql = require("mysql");
+
+    const con = mysql.createConnection({
+        host: "eu-cdbr-west-02.cleardb.net",
+        user: "b2ffa5a50a55d4",
+        password: "6650e7dc",
+        database: "heroku_98da7de83727676"
+    });
+
     var action = req.body.action;
     var value = req.body.value;
 
     if(action == "add"){
-        console.log("added")
+        var sql = "INSERT INTO data (reminder, done) VALUES (?,?)";
+        con.query(sql, [value, false],(err) => {
+            if (err) console.log(err.message)
+            else console.log("reminder inserted");
+        });
+
+        console.log("added");
     }else if(action == "delete"){
-        console.log("deleted")
+        var sql = "DELETE FROM data WHERE reminder = ?";
+        con.query(sql, [value],(err) => {
+            if (err) console.log(err.message);
+            else console.log("reminder deleted");
+        });
+
+        console.log("deleted");
     }else if(action == "done"){
-        console.log("done")
+        var sql_update = "UPDATE data SET done = !done WHERE reminder = ?";
+        con.query(sql_update, [value],(err) => {
+            if (err) console.log(err.message)
+            else console.log("updated");
+        });
+
+        console.log("done");
     }
+
+    con.end(function(err){
+        if(err) console.log(err.message);
+    });
+});
+
+app.get("/json", (req,res) => {
+    const mysql = require("mysql");
+
+    const con = mysql.createConnection({
+        host: "eu-cdbr-west-02.cleardb.net",
+        user: "b2ffa5a50a55d4",
+        password: "6650e7dc",
+        database: "heroku_98da7de83727676"
+    });
+
+    var sql = "SELECT * FROM data";
+    con.query(sql, (err, results) => {
+        if (err) console.log(err.message)
+        else {
+            var results_json = {};
+            let i = 0;
+            results.forEach(result => results_json[i++] = {"reminder": result["reminder"],"done": result["done"]});
+            console.log(results_json);
+            res.send(JSON.stringify(results_json));
+        }
+    });
+
+    con.end(function(err){
+        if(err) console.log(err.message);
+    });
 });
 
 app.listen(process.env.PORT || 5555);
