@@ -88,6 +88,7 @@ input[type="submit"]{
     font-weight: 700;
     cursor: pointer;
     outline: none;
+    margin-bottom: 30px;
 }
 
 input[type="submit"]:hover{
@@ -95,18 +96,10 @@ input[type="submit"]:hover{
     transition: 0.5s;
 }
 
-.signup_link{
-    margin: 30px 0;
-    text-align: center;
-    font-size: 16px;
-    color: white;
+input[type="text"]{
+    color:rgb(201, 0, 0);
 }
 
-.signup_link a{
-    color: rgb(201, 0, 0);
-    text-decoration: none;
-}
-
-.signup_link a:hover{
-    text-decoration: underline;
+input[type="password"]{
+    color:rgb(201, 0, 0);
 }
