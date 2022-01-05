@@ -1,3 +1,6 @@
+
+showDataInToDoApp();
+
 var node_list = document.getElementsByTagName('LI');
 
 for (var i = 0; i < node_list.length; i++){
@@ -70,6 +73,36 @@ function addNewReminder(){
     editReminder();
 }
 
+function addAddedReminder(inputValue, done){
+    //create new li element
+    var li = document.createElement('li');
+    var t = document.createTextNode(inputValue);
+    li.appendChild(t);
+    document.getElementById('list').appendChild(li);
+
+    //add close button
+    var span = document.createElement('SPAN');
+    var txt = document.createTextNode('\u00D7');
+    span.className='close';
+    span.appendChild(txt);
+    li.appendChild(span);
+
+    //add edit button
+    var span = document.createElement('SPAN');
+    var txt = document.createTextNode('\u270E');
+    span.className='edit';
+    span.appendChild(txt);
+    li.appendChild(span);
+
+    closeReminder();
+
+    editReminder();
+
+    if(done == 1){
+        li.classList.toggle('checked');
+    }
+}
+
 function editReminder(){
     var edit_it = document.getElementsByClassName('edit');
 
@@ -119,4 +152,12 @@ function sendToExpress(action, value){
         }
     });
     return;
+}
+
+async function showDataInToDoApp(){
+   const response = await fetch("/json");
+   var reminders = await response.json();
+   for(const x in reminders){
+        addAddedReminder(reminders[x]["reminder"],reminders[x]["done"]);
+   }
 }

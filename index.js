@@ -108,8 +108,34 @@ app.get("/json", (req,res) => {
             var results_json = {};
             let i = 0;
             results.forEach(result => results_json[i++] = {"reminder": result["reminder"],"done": result["done"]});
-            console.log(results_json);
             res.send(JSON.stringify(results_json));
+        }
+    });
+
+    con.end(function(err){
+        if(err) console.log(err.message);
+    });
+});
+
+app.post("/json", (req,res) => {
+    const mysql = require("mysql");
+
+    const con = mysql.createConnection({
+        host: "eu-cdbr-west-02.cleardb.net",
+        user: "b2ffa5a50a55d4",
+        password: "6650e7dc",
+        database: "heroku_98da7de83727676"
+    });
+
+    var sql = "SELECT * FROM data";
+    con.query(sql, (err, results) => {
+        if (err) console.log(err.message)
+        else {
+            var results_json = {};
+            let i = 0;
+            results.forEach(result => results_json[i++] = {"reminder": result["reminder"],"done": result["done"]});
+            res.json(results_json);
+            res.send();
         }
     });
 
