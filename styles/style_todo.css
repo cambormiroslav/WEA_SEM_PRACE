@@ -51,10 +51,6 @@ ul li:hover{
     background-color: #ddd;
 }
 
-ul li:nth-child(){
-    background: whitesmoke;
-}
-
 ul li.checked{
     background: #888;
     color: white;
