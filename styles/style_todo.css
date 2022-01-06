@@ -22,6 +22,13 @@ h2{
     box-shadow: 5px 10px 20px black;
 }
 
+.forLogOut{
+    width: 50%;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
 ul{
     margin: 0;
     border-left: 6px solid rgb(45, 24, 138);
@@ -130,4 +137,20 @@ input{
 
 .addBtn:hover{
     background-color: rgb(26, 141, 61);
+}
+
+
+button[type="submit"]{
+    background: rgb(201, 0, 0);
+    font-size: 18px;
+    float: right;
+    color: white;
+    border: 1px solid rgb(201, 0, 0);
+    width: 100px;
+    height: 30px;
+}
+
+button[type="submit"]:hover{
+    border-color: white;
+    transition: 0.5s;
 }

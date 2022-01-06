@@ -161,3 +161,9 @@ async function showDataInToDoApp(){
         addAddedReminder(reminders[x]["reminder"],reminders[x]["done"]);
    }
 }
+
+function logOut(){
+    fetch("/logout",{
+        method:'GET',
+    }); 
+}

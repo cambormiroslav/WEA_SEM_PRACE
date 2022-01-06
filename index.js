@@ -3,12 +3,14 @@ const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const auth = require('./auth');
+const methodOverride = require("method-override");
 
 
 app.use(express.static("public"));
 app.use(express.static(__dirname));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(methodOverride("method"));
 
 app.get("/", (req,res) => {
     res.sendFile(__dirname+'/login.html');
@@ -33,7 +35,7 @@ app.post("/", (req, res ,next) => {
 
         row.forEach(row => {
             if(row['password'] == password){
-                return res.cookie('authorized', 'true', { sameSite: 'strict' }).redirect('/todo');;
+                return res.cookie('authorized', 'true', { sameSite: 'strict' }).redirect('/todo');
             }else{
                 return res.redirect('/');
             }
@@ -53,6 +55,7 @@ app.get("/todo", auth.requiresLogin, (req,res) => {
         authorized: authorized
     });
 });
+
 
 app.post("/todo", auth.requiresLogin, (req, res ,next) => {
     const mysql = require("mysql");
@@ -149,6 +152,11 @@ app.post("/json", auth.requiresLogin, (req,res) => {
     con.end(function(err){
         if(err) console.log(err.message);
     });
+});
+
+app.delete('/logout', (req, res) => {
+    res.cookie('authorized', 'true', {expires: new Date(0)});
+    res.redirect('/');
 });
 
 app.listen(process.env.PORT || 5555);
