@@ -54,7 +54,7 @@ app.get("/todo", auth.requiresLogin, (req,res) => {
     });
 });
 
-app.post("/todo", (req, res ,next) => {
+app.post("/todo", auth.requiresLogin, (req, res ,next) => {
     const mysql = require("mysql");
 
     const con = mysql.createConnection({
@@ -124,7 +124,7 @@ app.get("/json", auth.requiresLogin, (req,res) => {
     });
 });
 
-app.post("/json", (req,res) => {
+app.post("/json", auth.requiresLogin, (req,res) => {
     const mysql = require("mysql");
 
     const con = mysql.createConnection({
