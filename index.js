@@ -1,10 +1,14 @@
 const express = require("express");
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const auth = require('./auth');
+
 
 app.use(express.static("public"));
 app.use(express.static(__dirname));
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.get("/", (req,res) => {
     res.sendFile(__dirname+'/login.html');
@@ -29,7 +33,7 @@ app.post("/", (req, res ,next) => {
 
         row.forEach(row => {
             if(row['password'] == password){
-                return res.redirect('/todo');
+                return res.cookie('authorized', 'true', { sameSite: 'strict' }).redirect('/todo');;
             }else{
                 return res.redirect('/');
             }
@@ -43,8 +47,11 @@ app.post("/", (req, res ,next) => {
 
 });
 
-app.get("/todo", (req,res) => {
-    res.sendFile(__dirname+'/todo.html');
+app.get("/todo", auth.requiresLogin, (req,res) => {
+    let authorized = req.cookies.authorized;
+    res.sendFile(__dirname+'/todo.html',{
+        authorized: authorized
+    });
 });
 
 app.post("/todo", (req, res ,next) => {
@@ -91,7 +98,7 @@ app.post("/todo", (req, res ,next) => {
     });
 });
 
-app.get("/json", (req,res) => {
+app.get("/json", auth.requiresLogin, (req,res) => {
     const mysql = require("mysql");
 
     const con = mysql.createConnection({
