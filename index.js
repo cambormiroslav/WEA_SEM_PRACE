@@ -4,7 +4,15 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const auth = require('./auth');
 const methodOverride = require("method-override");
+const nunjucks  = require('nunjucks');
 
+app.set('views', path.join(__dirname, 'views'));
+
+nunjucks.configure('views', {
+    autoescape: true,
+    cache: false,
+    express   : app
+});
 
 app.use(express.static("public"));
 app.use(express.static(__dirname));
@@ -13,7 +21,7 @@ app.use(cookieParser());
 app.use(methodOverride("method"));
 
 app.get("/", (req,res) => {
-    res.sendFile(__dirname+'/login.html');
+    res.sendFile(__dirname+'/views/login.html');
 });
 
 app.post("/", (req, res ,next) => {
@@ -51,7 +59,7 @@ app.post("/", (req, res ,next) => {
 
 app.get("/todo", auth.requiresLogin, (req,res) => {
     let authorized = req.cookies.authorized;
-    res.sendFile(__dirname+'/todo.html',{
+    res.sendFile(__dirname+'/views/todo.html',{
         authorized: authorized
     });
 });
